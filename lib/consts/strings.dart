@@ -20,3 +20,9 @@ const alreadyHaveAccount = "Already have an account?";
 const agree = "I agree to the";
 const termsAndCondition = "Terms and Conditions";
 const privacyPolicy = "Privacy Policy";
+
+// bottom navigation bar strings
+const home = "Home",
+    categories = "Categories",
+    cart = "Cart",
+    account = "Account";

@@ -1,5 +1,6 @@
 import 'package:emart/consts/consts.dart';
 import 'package:emart/views/splash_screen_view/splash_screen.dart';
+import 'package:get/get.dart';
 
 void main() {
   runApp(const MainApp());
@@ -10,7 +11,7 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: appname,
       theme: ThemeData(

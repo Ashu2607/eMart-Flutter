@@ -1,11 +1,11 @@
-import 'package:emart/auth_screen_view/signup_screen.dart';
 import 'package:emart/common_widgets/app_logo_widget.dart';
 import 'package:emart/common_widgets/bg_widget.dart';
 import 'package:emart/common_widgets/custom_button.dart';
 import 'package:emart/common_widgets/custom_text_field.dart';
 import 'package:emart/consts/consts.dart';
 import 'package:emart/consts/list.dart';
-import 'package:emart/home_view/home.dart';
+import 'package:emart/views/auth_screen_view/signup_screen.dart';
+import 'package:emart/views/home_view/home.dart';
 import 'package:get/get.dart';
 
 class LoginScreen extends StatelessWidget {

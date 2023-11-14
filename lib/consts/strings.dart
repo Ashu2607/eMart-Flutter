@@ -25,4 +25,13 @@ const privacyPolicy = "Privacy Policy";
 const home = "Home",
     categories = "Categories",
     cart = "Cart",
-    account = "Account";
+    profile = "Profile";
+
+// home screen strings
+const searchanyThing = "Search anything..",
+    todayDeal = "Today's Deal",
+    flashSale = "Flash Sale",
+    topSeller = "Top Seller",
+    brand = "Brand",
+    topCategories = "Top Categories",
+    featuredCategories = "Featured Categories";

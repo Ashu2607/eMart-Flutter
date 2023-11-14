@@ -1,7 +1,11 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:emart/consts/consts.dart';
-import 'package:emart/home_view/home_controller.dart';
+import 'package:emart/views/cart_screen_view/cart_screen.dart';
+import 'package:emart/views/category_screen_view/category_screen.dart';
+import 'package:emart/views/home_screen_view/home_screen.dart';
+import 'package:emart/views/home_view/home_controller.dart';
+import 'package:emart/views/profile_screen_view/profile_screen.dart';
 import 'package:get/get.dart';
 
 class Home extends StatelessWidget {
@@ -16,14 +20,14 @@ class Home extends StatelessWidget {
         icon: Image.asset(icCategories, width: 26), label: categories),
     BottomNavigationBarItem(icon: Image.asset(icCart, width: 26), label: cart),
     BottomNavigationBarItem(
-        icon: Image.asset(icProfile, width: 26), label: account),
+        icon: Image.asset(icProfile, width: 26), label: profile),
   ];
 
-  var navBody = [
-    Container(color: Colors.blue),
-    Container(color: Colors.amber),
-    Container(color: Colors.greenAccent),
-    Container(color: Colors.cyan),
+  var navBody = const [
+    HomeScreen(),
+    CategoryScreen(),
+    CartScreen(),
+    ProfileScreen(),
   ];
 
   @override

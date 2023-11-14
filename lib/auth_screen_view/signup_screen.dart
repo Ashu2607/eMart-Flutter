@@ -5,8 +5,15 @@ import 'package:emart/common_widgets/custom_text_field.dart';
 import 'package:emart/consts/consts.dart';
 import 'package:get/get.dart';
 
-class SignupScreen extends StatelessWidget {
+class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
+
+  @override
+  State<SignupScreen> createState() => _SignupScreenState();
+}
+
+class _SignupScreenState extends State<SignupScreen> {
+  bool isCheck = false;
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +37,14 @@ class SignupScreen extends StatelessWidget {
                   Row(
                     children: [
                       Checkbox(
-                        value: false,
-                        checkColor: redColor,
-                        onChanged: (newValue) {},
+                        value: isCheck,
+                        checkColor: whiteColor,
+                        activeColor: redColor,
+                        onChanged: (newValue) {
+                          setState(() {
+                            isCheck = newValue!;
+                          });
+                        },
                       ),
                       10.widthBox,
                       Expanded(
@@ -42,28 +54,30 @@ class SignupScreen extends StatelessWidget {
                               TextSpan(
                                 text: agree,
                                 style: TextStyle(
-                                  fontFamily: bold,
+                                  fontFamily: regular,
                                   color: fontGrey,
                                 ),
                               ),
                               TextSpan(
                                 text: termsAndCondition,
                                 style: TextStyle(
-                                  fontFamily: bold,
+                                  fontFamily: regular,
                                   color: redColor,
                                 ),
                               ),
                               TextSpan(
                                 text: ' & ',
                                 style: TextStyle(
-                                  fontFamily: bold,
+                                  fontFamily: regular,
                                   color: fontGrey,
                                 ),
                               ),
                               TextSpan(
                                 text: privacyPolicy,
                                 style: TextStyle(
-                                    fontFamily: bold, color: redColor),
+                                  fontFamily: regular,
+                                  color: redColor,
+                                ),
                               ),
                             ],
                           ),
@@ -72,34 +86,21 @@ class SignupScreen extends StatelessWidget {
                     ],
                   ),
                   customButton(
-                    color: redColor,
+                    color: isCheck ? redColor : lightGrey,
                     title: signup,
-                    textColor: whiteColor,
+                    textColor: isCheck ? whiteColor : Colors.black26,
                     onPressed: () {},
                   ).box.width(context.screenWidth - 50).make(),
                   10.heightBox,
-                  RichText(
-                    text: const TextSpan(
-                      children: [
-                        TextSpan(
-                          text: alreadyHaveAccount,
-                          style: TextStyle(
-                            fontFamily: bold,
-                            color: fontGrey,
-                          ),
-                        ),
-                        TextSpan(
-                          text: login,
-                          style: TextStyle(
-                            fontFamily: bold,
-                            color: redColor,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ).onTap(() {
-                    Get.back();
-                  }),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      alreadyHaveAccount.text.color(fontGrey).make(),
+                      login.text.color(redColor).make().onTap(() {
+                        Get.back();
+                      })
+                    ],
+                  ),
                 ],
               )
                   .box

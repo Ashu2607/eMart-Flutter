@@ -50,7 +50,7 @@ class LoginScreen extends StatelessWidget {
                     textColor: redColor,
                     onPressed: () {
                       Get.to(
-                        const SignupScreen(),
+                        () => const SignupScreen(),
                       );
                     },
                   ).box.width(context.screenWidth - 50).make(),

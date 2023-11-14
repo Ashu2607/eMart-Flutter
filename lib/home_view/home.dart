@@ -1,14 +1,14 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:emart/consts/consts.dart';
-import 'package:emart/home_screen_view/home_screen_controller.dart';
+import 'package:emart/home_view/home_controller.dart';
 import 'package:get/get.dart';
 
-class HomeScreen extends StatelessWidget {
-  HomeScreen({super.key});
+class Home extends StatelessWidget {
+  Home({super.key});
 
   // init home controller
-  var controller = Get.put(HomeScreenController());
+  var controller = Get.put(HomeController());
 
   var navbarItems = [
     BottomNavigationBarItem(icon: Image.asset(icHome, width: 26), label: home),

@@ -1,3 +1,3 @@
 const appname = "eMart";
 const appversion = "Version 1.0.0";
-const credits = "@Mohammad Usama";
+const credits = "@Usama";

@@ -167,8 +167,11 @@ class HomeScreen extends StatelessWidget {
                                 (index) => Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Image.asset(imgP1,
-                                        width: 150, fit: BoxFit.cover),
+                                    Image.asset(
+                                      imgP1,
+                                      width: 130,
+                                      fit: BoxFit.cover,
+                                    ),
                                     10.heightBox,
                                     "Laptop 8GB/64GB"
                                         .text
@@ -187,7 +190,7 @@ class HomeScreen extends StatelessWidget {
                                     .box
                                     .white
                                     .roundedSM
-                                    .margin(const EdgeInsets.all(4))
+                                    .margin(const EdgeInsets.symmetric(horizontal: 4))
                                     .padding(const EdgeInsets.all(8))
                                     .make(),
                               ),

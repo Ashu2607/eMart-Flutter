@@ -12,6 +12,7 @@ const retypePass = "Retype Password";
 const name = "Name";
 const nameHint = "Usama";
 const login = "Log In";
+const logout = "log out";
 const signup = "Sign up";
 const createNewAccount = "or, create new account";
 const loginWith = "Log in with";
@@ -61,3 +62,6 @@ const video = "Video",
     returnPolicy = "Return Policy",
     supportPolicy = "Support Policy",
     productYouMayLike = "Product you may also like";
+
+// profile strings
+const wishlist = "Wish List", orders = "My Orders", messages = "Mesages";

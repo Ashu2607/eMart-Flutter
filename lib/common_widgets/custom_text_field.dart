@@ -1,6 +1,7 @@
 import 'package:emart/consts/consts.dart';
 
-Widget customTextField({String? title, String? hint, controller, isPass}) {
+Widget customTextField(
+    {String? title, String? hint, TextEditingController? controller, isPass}) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [

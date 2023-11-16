@@ -1,9 +1,15 @@
+// ignore_for_file: curly_braces_in_flow_control_structures
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:emart/common_widgets/bg_widget.dart';
 import 'package:emart/consts/consts.dart';
 import 'package:emart/consts/list.dart';
 import 'package:emart/controllers/auth_controller.dart';
+import 'package:emart/controllers/profile_controller.dart';
+import 'package:emart/services/firestore_service.dart';
 import 'package:emart/views/auth_screen_view/login_screen.dart';
 import 'package:emart/views/profile_screen_view/components/cart_details.dart';
+import 'package:emart/views/profile_screen_view/edit_profile_screen.dart';
 import 'package:get/get.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -11,93 +17,127 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var controller = Get.put(ProfileController());
+
     return bgWidget(
-      child: SafeArea(
-        child: Column(
-          children: [
-            // edit profile
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: const Align(
-                      alignment: Alignment.topRight,
-                      child: Icon(Icons.edit, color: whiteColor))
-                  .onTap(() async {}),
-            ),
-
-            // user details section
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Row(
-                children: [
-                  Image.asset(imgProfile2, width: 80, fit: BoxFit.cover)
-                      .box
-                      .roundedFull
-                      .clip(Clip.antiAlias)
-                      .make(),
-                  10.widthBox,
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        "Dummy User".text.white.fontFamily(semibold).make(),
-                        "customer@example.com".text.white.make(),
-                      ],
-                    ),
-                  ),
-                  OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      side: const BorderSide(color: whiteColor),
-                    ),
-                    onPressed: () {
-                      Get.put(AuthController()).signoutMethod(context: context);
-                      Get.offAll(() => LoginScreen());
-                    },
-                    child: logout.text.white.fontFamily(semibold).make(),
-                  ),
-                ],
-              ),
-            ),
-
-            // cart
-            20.heightBox,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        child: StreamBuilder(
+      stream: FirestoreService.getUser(currentUser!.uid),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (!snapshot.hasData)
+          return const Center(
+            child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation(redColor)),
+          );
+        else {
+          var data = snapshot.data!.docs[0];
+          return SafeArea(
+            child: Column(
               children: [
-                cartDetails(context.screenWidth / 3.5, "00", "in your cart"),
-                cartDetails(
-                    context.screenWidth / 3.5, "22", "in your wishlist"),
-                cartDetails(context.screenWidth / 3.5, "120", "you ordered"),
+                // edit profile
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: const Align(
+                          alignment: Alignment.topRight,
+                          child: Icon(Icons.edit, color: whiteColor))
+                      .onTap(() async {
+                    controller.nameController.text = data['name'];
+                    controller.passController.text = data['password'];
+                    Get.to(() => EditProfileScreen(data: data));
+                  }),
+                ),
+
+                // user details section
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Row(
+                    children: [
+                      data['imageUrl'] == ''
+                          ? Image.asset(imgProfile2,
+                                  width: 80, fit: BoxFit.cover)
+                              .box
+                              .roundedFull
+                              .clip(Clip.antiAlias)
+                              .make()
+                          : Image.network(data['imageUrl'],
+                                  width: 80, fit: BoxFit.cover)
+                              .box
+                              .roundedFull
+                              .clip(Clip.antiAlias)
+                              .make(),
+                      10.widthBox,
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            '${data['name']}'
+                                .text
+                                .white
+                                .fontFamily(semibold)
+                                .make(),
+                            '${data['email']}'.text.white.make(),
+                          ],
+                        ),
+                      ),
+                      OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                          side: const BorderSide(color: whiteColor),
+                        ),
+                        onPressed: () {
+                          Get.put(AuthController())
+                              .signoutMethod(context: context);
+                          Get.offAll(() => LoginScreen());
+                        },
+                        child: logout.text.white.fontFamily(semibold).make(),
+                      ),
+                    ],
+                  ),
+                ),
+
+                // cart
+                20.heightBox,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    cartDetails(context.screenWidth / 3.5, data['cart_count'],
+                        "in your cart"),
+                    cartDetails(context.screenWidth / 3.5,
+                        data['wishlist_count'], "in your wishlist"),
+                    cartDetails(context.screenWidth / 3.5, data['order_count'],
+                        "you ordered"),
+                  ],
+                ),
+
+                // profile button
+                ListView.separated(
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) => ListTile(
+                    leading:
+                        Image.asset(profileButtonIconsList[index], width: 22),
+                    title: profileButtonList[index]
+                        .text
+                        .fontFamily(semibold)
+                        .color(darkFontGrey)
+                        .make(),
+                  ),
+                  separatorBuilder: (context, index) =>
+                      const Divider(color: lightGrey),
+                  itemCount: profileButtonList.length,
+                )
+                    .box
+                    .rounded
+                    .white
+                    .margin(const EdgeInsets.all(12))
+                    .padding(const EdgeInsets.symmetric(horizontal: 16))
+                    .shadowSm
+                    .make()
+                    .box
+                    .color(redColor)
+                    .make(),
               ],
             ),
-
-            // profile button
-            ListView.separated(
-              shrinkWrap: true,
-              itemBuilder: (context, index) => ListTile(
-                leading: Image.asset(profileButtonIconsList[index], width: 22),
-                title: profileButtonList[index]
-                    .text
-                    .fontFamily(semibold)
-                    .color(darkFontGrey)
-                    .make(),
-              ),
-              separatorBuilder: (context, index) =>
-                  const Divider(color: lightGrey),
-              itemCount: profileButtonList.length,
-            )
-                .box
-                .rounded
-                .white
-                .margin(const EdgeInsets.all(12))
-                .padding(const EdgeInsets.symmetric(horizontal: 16))
-                .shadowSm
-                .make()
-                .box
-                .color(redColor)
-                .make(),
-          ],
-        ),
-      ),
-    );
+          );
+        }
+      },
+    ));
   }
 }

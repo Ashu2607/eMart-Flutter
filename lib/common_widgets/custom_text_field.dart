@@ -1,6 +1,6 @@
 import 'package:emart/consts/consts.dart';
 
-Widget customTextField({String? title, String? hint, controller}) {
+Widget customTextField({String? title, String? hint, controller, isPass}) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -8,6 +8,7 @@ Widget customTextField({String? title, String? hint, controller}) {
       5.heightBox,
       TextFormField(
         controller: controller,
+        obscureText: isPass,
         decoration: InputDecoration(
           hintText: hint,
           hintStyle: const TextStyle(

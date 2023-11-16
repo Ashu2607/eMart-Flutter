@@ -4,6 +4,7 @@ import 'package:emart/common_widgets/custom_button.dart';
 import 'package:emart/common_widgets/custom_text_field.dart';
 import 'package:emart/consts/consts.dart';
 import 'package:emart/controllers/auth_controller.dart';
+import 'package:emart/views/home_view/home.dart';
 import 'package:get/get.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -39,10 +40,30 @@ class _SignupScreenState extends State<SignupScreen> {
               20.heightBox,
               Column(
                 children: [
-                  customTextField(title: name, hint: nameHint),
-                  customTextField(title: email, hint: emailHint),
-                  customTextField(title: password, hint: passwordHint),
-                  customTextField(title: retypePass, hint: passwordHint),
+                  customTextField(
+                    title: name,
+                    hint: nameHint,
+                    controller: nameController,
+                    isPass: false,
+                  ),
+                  customTextField(
+                    title: email,
+                    hint: emailHint,
+                    controller: emailController,
+                    isPass: false,
+                  ),
+                  customTextField(
+                    title: password,
+                    hint: passwordHint,
+                    controller: passwordController,
+                    isPass: true,
+                  ),
+                  customTextField(
+                    title: retypePass,
+                    hint: passwordHint,
+                    controller: retypePasswordController,
+                    isPass: true,
+                  ),
                   Row(
                     children: [
                       Checkbox(
@@ -98,7 +119,31 @@ class _SignupScreenState extends State<SignupScreen> {
                     color: isCheck ? redColor : lightGrey,
                     title: signup,
                     textColor: isCheck ? whiteColor : Colors.black26,
-                    onPressed: () {},
+                    onPressed: () async {
+                      if (isCheck) {
+                        try {
+                          await controller
+                              .signupMethod(
+                                context: context,
+                                email: emailController.text,
+                                password: passwordController.text,
+                              )
+                              .then((value) => controller.storeUserdata(
+                                    name: nameController.text,
+                                    email: emailController.text,
+                                    password: passwordController.text,
+                                  ))
+                              .then((value) {
+                            VxToast.show(context, msg: loggedin);
+                            Get.offAll(() => Home());
+                          });
+                        } catch (e) {
+                          auth.signOut();
+                          // ignore: use_build_context_synchronously
+                          VxToast.show(context, msg: e.toString());
+                        }
+                      }
+                    },
                   ).box.width(context.screenWidth - 50).make(),
                   10.heightBox,
                   Row(

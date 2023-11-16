@@ -1,15 +1,23 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:emart/common_widgets/app_logo_widget.dart';
 import 'package:emart/common_widgets/bg_widget.dart';
 import 'package:emart/common_widgets/custom_button.dart';
 import 'package:emart/common_widgets/custom_text_field.dart';
 import 'package:emart/consts/consts.dart';
 import 'package:emart/consts/list.dart';
+import 'package:emart/controllers/auth_controller.dart';
 import 'package:emart/views/auth_screen_view/signup_screen.dart';
 import 'package:emart/views/home_view/home.dart';
 import 'package:get/get.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+  LoginScreen({super.key});
+  // text editing controller
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  var controller = Get.put(AuthController());
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +34,18 @@ class LoginScreen extends StatelessWidget {
               20.heightBox,
               Column(
                 children: [
-                  customTextField(title: email, hint: emailHint),
-                  customTextField(title: password, hint: passwordHint),
+                  customTextField(
+                    title: email,
+                    hint: emailHint,
+                    isPass: false,
+                    controller: emailController,
+                  ),
+                  customTextField(
+                    title: password,
+                    hint: passwordHint,
+                    isPass: true,
+                    controller: passwordController,
+                  ),
                   Align(
                     alignment: Alignment.centerRight,
                     child: TextButton(
@@ -40,8 +58,22 @@ class LoginScreen extends StatelessWidget {
                     color: redColor,
                     title: login,
                     textColor: whiteColor,
-                    onPressed: () {
-                      Get.to(() => Home());
+                    onPressed: () async {
+                      try {
+                        controller
+                            .loginMethod(
+                          email: emailController.text,
+                          password: passwordController.text,
+                        )
+                            .then((value) {
+                          if (value != null) {
+                            VxToast.show(context, msg: loggedin);
+                            Get.offAll(Home());
+                          }
+                        });
+                      } catch (e) {
+                        VxToast.show(context, msg: e.toString());
+                      }
                     },
                   ).box.width(context.screenWidth - 50).make(),
                   5.heightBox,

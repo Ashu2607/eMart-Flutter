@@ -14,6 +14,9 @@ const nameHint = "Usama";
 const login = "Log In";
 const logout = "log out";
 const signup = "Sign up";
+const loggedin = "Logged in successfully";
+const loggedout = "Logged ou successfully";
+
 const createNewAccount = "or, create new account";
 const loginWith = "Log in with";
 const alreadyHaveAccount = "Already have an account?";

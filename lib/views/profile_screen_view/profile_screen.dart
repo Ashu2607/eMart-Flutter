@@ -1,7 +1,10 @@
 import 'package:emart/common_widgets/bg_widget.dart';
 import 'package:emart/consts/consts.dart';
 import 'package:emart/consts/list.dart';
+import 'package:emart/controllers/auth_controller.dart';
+import 'package:emart/views/auth_screen_view/login_screen.dart';
 import 'package:emart/views/profile_screen_view/components/cart_details.dart';
+import 'package:get/get.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -18,7 +21,7 @@ class ProfileScreen extends StatelessWidget {
               child: const Align(
                       alignment: Alignment.topRight,
                       child: Icon(Icons.edit, color: whiteColor))
-                  .onTap(() {}),
+                  .onTap(() async {}),
             ),
 
             // user details section
@@ -45,7 +48,10 @@ class ProfileScreen extends StatelessWidget {
                     style: OutlinedButton.styleFrom(
                       side: const BorderSide(color: whiteColor),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.put(AuthController()).signoutMethod(context: context);
+                      Get.offAll(() => LoginScreen());
+                    },
                     child: logout.text.white.fontFamily(semibold).make(),
                   ),
                 ],
@@ -68,9 +74,12 @@ class ProfileScreen extends StatelessWidget {
             ListView.separated(
               shrinkWrap: true,
               itemBuilder: (context, index) => ListTile(
-                leading:
-                    Image.asset(profileButtonIconsList[index], width: 22),
-                title: profileButtonList[index].text.fontFamily(semibold).color(darkFontGrey).make(),
+                leading: Image.asset(profileButtonIconsList[index], width: 22),
+                title: profileButtonList[index]
+                    .text
+                    .fontFamily(semibold)
+                    .color(darkFontGrey)
+                    .make(),
               ),
               separatorBuilder: (context, index) =>
                   const Divider(color: lightGrey),
@@ -78,10 +87,14 @@ class ProfileScreen extends StatelessWidget {
             )
                 .box
                 .rounded
-                .white.margin(const EdgeInsets.all(12))
+                .white
+                .margin(const EdgeInsets.all(12))
                 .padding(const EdgeInsets.symmetric(horizontal: 16))
                 .shadowSm
-                .make().box.color(redColor).make(),
+                .make()
+                .box
+                .color(redColor)
+                .make(),
           ],
         ),
       ),

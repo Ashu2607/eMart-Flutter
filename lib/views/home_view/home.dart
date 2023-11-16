@@ -4,7 +4,7 @@ import 'package:emart/consts/consts.dart';
 import 'package:emart/views/cart_screen_view/cart_screen.dart';
 import 'package:emart/views/category_screen_view/category_screen.dart';
 import 'package:emart/views/home_screen_view/home_screen.dart';
-import 'package:emart/views/home_view/home_controller.dart';
+import 'package:emart/controllers/home_controller.dart';
 import 'package:emart/views/profile_screen_view/profile_screen.dart';
 import 'package:get/get.dart';
 

@@ -3,6 +3,7 @@ import 'package:emart/common_widgets/bg_widget.dart';
 import 'package:emart/common_widgets/custom_button.dart';
 import 'package:emart/common_widgets/custom_text_field.dart';
 import 'package:emart/consts/consts.dart';
+import 'package:emart/controllers/auth_controller.dart';
 import 'package:get/get.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -14,6 +15,14 @@ class SignupScreen extends StatefulWidget {
 
 class _SignupScreenState extends State<SignupScreen> {
   bool isCheck = false;
+  var controller = Get.put(AuthController());
+
+  // text editing controller
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController retypePasswordController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {

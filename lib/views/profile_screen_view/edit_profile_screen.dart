@@ -80,7 +80,7 @@ class EditProfileScreen extends StatelessWidget {
                           await controller.uploadProfileImage();
                           controller.updateProfile();
                           controller.isLoading(false);
-                          VxToast.show(context, msg: 'Updated');
+                          VxToast.show(context, msg: updated);
                         },
                         textColor: whiteColor,
                         title: "Save",

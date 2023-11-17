@@ -16,6 +16,7 @@ const logout = "Log out";
 const signup = "Sign up";
 const loggedin = "Logged in successfully";
 const loggedout = "Logged ou successfully";
+const updated = "Updated";
 
 const createNewAccount = "or, create new account";
 const loginWith = "Log in with";

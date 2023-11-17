@@ -32,9 +32,12 @@ class ProfileController extends GetxController {
   uploadProfileImage() async {
     var filename = basename(profileImagePath.value);
     var destination = 'images/${currentUser!.uid}/$filename';
-    Reference ref = FirebaseStorage.instance.ref().child(destination);
-    await ref.putFile(File(profileImagePath.value));
-    profileImageLink = await ref.getDownloadURL();
+    var file = File(profileImagePath.value);
+    if (file.existsSync()) {
+      Reference ref = FirebaseStorage.instance.ref().child(destination);
+      await ref.putFile(File(profileImagePath.value));
+      profileImageLink = await ref.getDownloadURL();
+    }
   }
 
   // update profile
@@ -44,7 +47,7 @@ class ProfileController extends GetxController {
     await store.set({
       'name': nameController.text,
       'password': passController.text,
-      'imageUrl': profileImageLink.text,
+      'imageUrl': profileImageLink,
     }, SetOptions(merge: true));
     isLoading(false);
   }

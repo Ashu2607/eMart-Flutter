@@ -60,10 +60,18 @@ class EditProfileScreen extends StatelessWidget {
                 title: name,
                 isPass: false,
               ),
+              10.heightBox,
               customTextField(
-                controller: controller.passController,
+                controller: controller.oldPassController,
                 hint: passwordHint,
-                title: password,
+                title: oldPass,
+                isPass: true,
+              ),
+              10.heightBox,
+              customTextField(
+                controller: controller.newPassController,
+                hint: passwordHint,
+                title: newPass,
                 isPass: true,
               ),
               20.heightBox,
@@ -77,10 +85,34 @@ class EditProfileScreen extends StatelessWidget {
                         color: redColor,
                         onPressed: () async {
                           controller.isLoading(true);
-                          await controller.uploadProfileImage();
-                          controller.updateProfile();
+
+                          // if image is not selected
+                          if (controller.profileImagePath.value.isNotEmpty) {
+                            await controller.uploadProfileImage();
+                          } else {
+                            controller.profileImageLink = data['imageUrl'];
+                          }
+
+                          // if old pass machtes database password
+                          if (data['password'] ==
+                              controller.oldPassController.text) {
+                            controller.changeAuthPassword(
+                              email: data['email'],
+                              password: controller.oldPassController.text,
+                              newPassword: controller.newPassController.text,
+                              context: context,
+                            );
+
+                            await controller.updateProfile();
+
+                            VxToast.show(context, msg: updated);
+                          } else {
+                            VxToast.show(context, msg: wrongOldPass);
+                          }
                           controller.isLoading(false);
-                          VxToast.show(context, msg: updated);
+                          controller.oldPassController.clear();
+                          controller.newPassController.clear();
+                          Get.back();
                         },
                         textColor: whiteColor,
                         title: "Save",

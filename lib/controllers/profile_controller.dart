@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:emart/consts/consts.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -14,7 +15,8 @@ class ProfileController extends GetxController {
 
   // text controller
   TextEditingController nameController = TextEditingController();
-  TextEditingController passController = TextEditingController();
+  TextEditingController oldPassController = TextEditingController();
+  TextEditingController newPassController = TextEditingController();
 
   // change image
   changeImage({context}) async {
@@ -46,9 +48,21 @@ class ProfileController extends GetxController {
     var store = firestore.collection(usersCollections).doc(currentUser!.uid);
     await store.set({
       'name': nameController.text,
-      'password': passController.text,
+      'password': newPassController.text,
       'imageUrl': profileImageLink,
     }, SetOptions(merge: true));
     isLoading(false);
+  }
+
+  // change old password with new password
+  changeAuthPassword({email, password, newPassword, context}) async {
+    final credential =
+        EmailAuthProvider.credential(email: email, password: password);
+
+    await currentUser!
+        .reauthenticateWithCredential(credential)
+        .then((value) => currentUser!.updatePassword(newPassword))
+        .onError((error, stackTrace) =>
+            VxToast.show(context, msg: error.toString()));
   }
 }

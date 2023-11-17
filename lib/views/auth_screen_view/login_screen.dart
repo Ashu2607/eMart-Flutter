@@ -56,7 +56,9 @@ class LoginScreen extends StatelessWidget {
                     ),
                     5.heightBox,
                     controller.isLoading.value
-                        ? const CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(redColor),)
+                        ? const CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation(redColor),
+                          )
                         : customButton(
                             color: redColor,
                             title: login,
@@ -68,6 +70,7 @@ class LoginScreen extends StatelessWidget {
                                     .loginMethod(
                                   email: emailController.text,
                                   password: passwordController.text,
+                                  context: context,
                                 )
                                     .then((value) {
                                   if (value != null) {

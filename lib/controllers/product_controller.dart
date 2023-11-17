@@ -4,6 +4,9 @@ import 'package:get/get.dart';
 
 class ProductController extends GetxController {
   var subCat = [];
+  var quantity = 0.obs;
+  var colorIndex = 0.obs;
+  var totalPrice = 0.obs;
 
   getSubCategories(title) async {
     subCat.clear();
@@ -16,4 +19,18 @@ class ProductController extends GetxController {
       subCat.add(category);
     }
   }
+
+  changeColorIndex(index) {
+    colorIndex.value = index;
+  }
+
+  increaseQuantity(totalQuantity) {
+    if (quantity.value < totalQuantity) quantity.value++;
+  }
+
+  decreaseQuantity() {
+    if (quantity.value > 0) quantity.value--;
+  }
+
+  calculateTotalPrice(price) => totalPrice.value = price * quantity.value;
 }

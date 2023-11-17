@@ -24,15 +24,15 @@ const categoryList = [
   furniture
 ];
 const categoryImages = [
+  imgS1,
   imgFc1,
   imgFc2,
   imgFc3,
   imgFc4,
   imgFc5,
+  imgS11,
   imgFc6,
-  imgFc7,
-  imgFc8,
-  imgFc9
+  imgFc9,
 ];
 
 const itemDetailsButtonsList = [

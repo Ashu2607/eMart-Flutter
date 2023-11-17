@@ -49,14 +49,14 @@ const searchanyThing = "Search anything..",
     featuredProduct = "Featured Product";
 
 // category strings
-const womenClothing = "Women Clothing",
+const womenClothing = "Women Dress",
     menClothingFashion = "Men Clothing & Fashion",
     compAcc = "Computer & Accessories",
-    autoMobile = "Auto Mobile",
-    kidToys = "Kid Toys",
+    autoMobile = "Automobile",
+    kidToys = "Toys",
     sports = "Sports",
-    jewerly = "Jewerly",
-    cellphone = "Cellphone & Tabs",
+    jewerly = "Jewelry",
+    cellphone = "Cellphone & Tab",
     furniture = "Furniture";
 
 // item details strings

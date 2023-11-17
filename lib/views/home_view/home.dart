@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:emart/common_widgets/exit_dialog.dart';
 import 'package:emart/consts/consts.dart';
 import 'package:emart/views/cart_screen_view/cart_screen.dart';
 import 'package:emart/views/category_screen_view/category_screen.dart';
@@ -32,25 +33,35 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          Obx(
-            () => Expanded(
-              child: navBody.elementAt(controller.currentNavIndex.value),
+    return WillPopScope(
+      onWillPop: () async {
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) => exitDialog(context),
+        );
+        return false;
+      },
+      child: Scaffold(
+        body: Column(
+          children: [
+            Obx(
+              () => Expanded(
+                child: navBody.elementAt(controller.currentNavIndex.value),
+              ),
             ),
+          ],
+        ),
+        bottomNavigationBar: Obx(
+          () => BottomNavigationBar(
+            currentIndex: controller.currentNavIndex.value,
+            type: BottomNavigationBarType.fixed,
+            selectedLabelStyle: const TextStyle(fontFamily: semibold),
+            selectedItemColor: redColor,
+            items: navbarItems,
+            backgroundColor: whiteColor,
+            onTap: (newIndex) => controller.currentNavIndex.value = newIndex,
           ),
-        ],
-      ),
-      bottomNavigationBar: Obx(
-        () => BottomNavigationBar(
-          currentIndex: controller.currentNavIndex.value,
-          type: BottomNavigationBarType.fixed,
-          selectedLabelStyle: const TextStyle(fontFamily: semibold),
-          selectedItemColor: redColor,
-          items: navbarItems,
-          backgroundColor: whiteColor,
-          onTap: (newIndex) => controller.currentNavIndex.value = newIndex,
         ),
       ),
     );

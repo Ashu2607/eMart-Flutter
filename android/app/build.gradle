@@ -3,6 +3,11 @@ plugins {
     id "kotlin-android"
     id "dev.flutter.flutter-gradle-plugin"
 }
+kotlin {
+    androidExtensions {
+        experimental = true
+    }
+}
 
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')

@@ -1,7 +1,10 @@
+// ignore_for_file: curly_braces_in_flow_control_structures
+
 import 'package:emart/common_widgets/custom_button.dart';
 import 'package:emart/consts/consts.dart';
 import 'package:emart/consts/list.dart';
 import 'package:emart/controllers/product_controller.dart';
+import 'package:emart/views/chat_screen_view/chat_screen.dart';
 import 'package:get/get.dart';
 
 class ItemDetails extends StatelessWidget {
@@ -28,8 +31,22 @@ class ItemDetails extends StatelessWidget {
           title: title!.text.color(darkFontGrey).fontFamily(bold).make(),
           actions: [
             IconButton(onPressed: () {}, icon: const Icon(Icons.share)),
-            IconButton(
-                onPressed: () {}, icon: const Icon(Icons.favorite_outline))
+            Obx(
+              () => IconButton(
+                onPressed: () {
+                  if (controller.isFav.value)
+                    controller.removeFromWishList(data.id, context);
+                  else
+                    controller.addToWishList(data.id, context);
+                },
+                icon: Icon(
+                  controller.isFav.value
+                      ? Icons.favorite_outlined
+                      : Icons.favorite_outline,
+                  color: redColor,
+                ),
+              ),
+            )
           ],
         ),
         body: Column(
@@ -112,7 +129,12 @@ class ItemDetails extends StatelessWidget {
                               Icons.message,
                               color: darkFontGrey,
                             ),
-                          ),
+                          ).onTap(() {
+                            Get.to(
+                              () => const ChatScreen(),
+                              arguments: [data['p_seller'], data['vendor_id']],
+                            );
+                          }),
                         ],
                       )
                           .box
@@ -334,7 +356,7 @@ class ItemDetails extends StatelessWidget {
                 color: redColor,
                 textColor: whiteColor,
               ),
-            )
+            ),
           ],
         ),
       ),

@@ -22,4 +22,12 @@ class FirestoreService {
   // delete cart document from databse
   static deleteCartDocument(docId) =>
       firestore.collection(cartCollection).doc(docId).delete();
+
+  // gett all chat messages
+  static getChatMessages(docId) => firestore
+      .collection(chatsCollection)
+      .doc(docId)
+      .collection(messagesCollection)
+      .orderBy('created_on', descending: false)
+      .snapshots();
 }

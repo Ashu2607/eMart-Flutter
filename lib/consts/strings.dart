@@ -17,6 +17,7 @@ const signup = "Sign up";
 const loggedin = "Logged in successfully";
 const loggedout = "Logged ou successfully";
 const updated = "Updated";
+const typeMessage = "Type a message...";
 
 const createNewAccount = "or, create new account";
 const loginWith = "Log in with";
@@ -74,3 +75,13 @@ const wishlist = "Wish List",
     oldPass = "Old Password",
     newPass = "New Password",
     wrongOldPass = "Wrong Old Password";
+
+// shipping screen string
+const address = "Address",
+    city = "City",
+    state = "State",
+    postalCode = "Postal Code",
+    phone = "Phone";
+
+// payment methods string
+const paypal = "Paypal", stripe = "Stripe", cod = "Cash of Delivery";

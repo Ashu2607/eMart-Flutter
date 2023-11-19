@@ -73,4 +73,8 @@ class FirestoreService {
               (value) => value.docs.length,
             ),
       ]);
+
+  // get all products
+  static getAllProducts() =>
+      firestore.collection(productsCollection).snapshots();
 }

@@ -26,7 +26,12 @@ class ProfileScreen extends StatelessWidget {
         if (!snapshot.hasData)
           return const Center(
             child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation(redColor)),
+              valueColor: AlwaysStoppedAnimation(redColor),
+            ),
+          );
+        else if (snapshot.data!.docs.isEmpty)
+          return Center(
+            child: "No data".text.color(darkFontGrey).makeCentered(),
           );
         else {
           var data = snapshot.data!.docs[0];
@@ -41,7 +46,7 @@ class ProfileScreen extends StatelessWidget {
                           child: Icon(Icons.edit, color: whiteColor))
                       .onTap(() async {
                     controller.nameController.text = data['name'];
-  
+
                     Get.to(() => EditProfileScreen(data: data));
                   }),
                 ),

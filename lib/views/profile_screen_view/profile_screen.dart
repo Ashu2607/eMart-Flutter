@@ -101,16 +101,23 @@ class ProfileScreen extends StatelessWidget {
 
                 // cart
                 20.heightBox,
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    cartDetails(context.screenWidth / 3.5, data['cart_count'],
-                        "in your cart"),
-                    cartDetails(context.screenWidth / 3.5,
-                        data['wishlist_count'], "in your wishlist"),
-                    cartDetails(context.screenWidth / 3.5, data['order_count'],
-                        "you ordered"),
-                  ],
+                FutureBuilder(
+                  future: FirestoreService.getCount(),
+                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    if (!snapshot.hasData) return loadingIndicator();
+                    var countData = snapshot.data;
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        cartDetails(context.screenWidth / 3.5,
+                            countData[0].toString(), "in your cart"),
+                        cartDetails(context.screenWidth / 3.5,
+                            countData[1].toString(), "in your wishlist"),
+                        cartDetails(context.screenWidth / 3.5,
+                            countData[2].toString(), "you ordered"),
+                      ],
+                    );
+                  },
                 ),
 
                 // profile button

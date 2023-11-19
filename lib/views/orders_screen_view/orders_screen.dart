@@ -3,6 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:emart/common_widgets/loading_indicator.dart';
 import 'package:emart/consts/consts.dart';
 import 'package:emart/services/firestore_service.dart';
+import 'package:emart/views/orders_screen_view/order_details_screen.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 class OrdersScreen extends StatelessWidget {
   const OrdersScreen({super.key});
@@ -24,9 +27,18 @@ class OrdersScreen extends StatelessWidget {
 
           var data = snapshot.data!.docs;
 
-          return ListView.builder(
+          return ListView.separated(
+            separatorBuilder: (BuildContext context, int index) =>
+                const Divider(color: Colors.black54),
             itemCount: data.length,
             itemBuilder: (BuildContext context, int index) => ListTile(
+              leading: "${index + 1}"
+                  .text
+                  .color(darkFontGrey)
+                  .fontFamily(semibold)
+                  .xl3
+                  .make(),
+              tileColor: lightGrey,
               title: data[index]['order_code']
                   .toString()
                   .text
@@ -39,6 +51,19 @@ class OrdersScreen extends StatelessWidget {
                   .text
                   .fontFamily(bold)
                   .make(),
+              trailing: IconButton(
+                onPressed: () {
+                  Get.to(
+                    () => OrderDetailsScreen(
+                      data: data[index],
+                    ),
+                  );
+                },
+                icon: const Icon(
+                  Icons.arrow_forward_ios,
+                  color: darkFontGrey,
+                ),
+              ),
             ),
           );
         },

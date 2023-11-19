@@ -43,8 +43,8 @@ const itemDetailsButtonsList = [
   supportPolicy
 ];
 
-const profileButtonList = [wishlist, orders, messages];
-const profileButtonIconsList = [icOrder, icOrder, icMessages];
+const profileButtonList = [orders, wishlist, messages];
+const profileButtonIconsList = [icOrders, icHeart, icMessages];
 
 const paymentMethodsImgList = [imgCod, imgStripe, imgPaypal];
 const paymentMethhodsList = [cod, stripe, paypal];

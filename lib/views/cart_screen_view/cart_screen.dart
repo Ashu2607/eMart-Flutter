@@ -46,7 +46,11 @@ class CartScreen extends StatelessWidget {
                   child: ListView.builder(
                     itemCount: data.length,
                     itemBuilder: (context, index) => ListTile(
-                      leading: Image.network("${data[index]['image']}"),
+                      leading: Image.network(
+                        "${data[index]['image']}",
+                        width: 80,
+                        fit: BoxFit.cover,
+                      ),
                       title:
                           "${data[index]['title']} (x${data[index]['quantity']})"
                               .text

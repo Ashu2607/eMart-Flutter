@@ -1,7 +1,11 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:emart/common_widgets/custom_button.dart';
+import 'package:emart/common_widgets/loading_indicator.dart';
 import 'package:emart/consts/consts.dart';
 import 'package:emart/consts/list.dart';
 import 'package:emart/controllers/cart_controller.dart';
+import 'package:emart/views/home_view/home.dart';
 import 'package:get/get.dart';
 
 class PaymentScreen extends StatelessWidget {
@@ -70,19 +74,26 @@ class PaymentScreen extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: SizedBox(
-        height: 60,
-        child: customButton(
-          onPressed: () {
-            controller.placeMyOrder(
-              orderPaymentMethod:
-                  paymentMethhodsList[controller.paymentIndex.value],
-              totalAmount: controller.totalPrice.value,
-            );
-          },
-          color: redColor,
-          textColor: whiteColor,
-          title: "Place my Order",
+      bottomNavigationBar: Obx(
+        () => SizedBox(
+          height: 60,
+          child: controller.placingOrder.value
+              ? loadingIndicator()
+              : customButton(
+                  onPressed: () async {
+                    await controller.placeMyOrder(
+                      orderPaymentMethod:
+                          paymentMethhodsList[controller.paymentIndex.value],
+                      totalAmount: controller.totalPrice.value,
+                    );
+                    await controller.clearCart();
+                    VxToast.show(context, msg: orderPlaced);
+                    Get.offAll(() => Home());
+                  },
+                  color: redColor,
+                  textColor: whiteColor,
+                  title: "Place my Order",
+                ),
         ),
       ),
     );

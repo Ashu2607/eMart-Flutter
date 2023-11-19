@@ -2,14 +2,18 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:emart/common_widgets/bg_widget.dart';
+import 'package:emart/common_widgets/loading_indicator.dart';
 import 'package:emart/consts/consts.dart';
 import 'package:emart/consts/list.dart';
 import 'package:emart/controllers/auth_controller.dart';
 import 'package:emart/controllers/profile_controller.dart';
 import 'package:emart/services/firestore_service.dart';
 import 'package:emart/views/auth_screen_view/login_screen.dart';
+import 'package:emart/views/messages_screen/messages_screen.dart';
+import 'package:emart/views/orders_screen_view/orders_screen.dart';
 import 'package:emart/views/profile_screen_view/components/cart_details.dart';
 import 'package:emart/views/profile_screen_view/edit_profile_screen.dart';
+import 'package:emart/views/wishlist_screen_view/wishlist_screen.dart';
 import 'package:get/get.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -24,17 +28,14 @@ class ProfileScreen extends StatelessWidget {
       stream: FirestoreService.getUser(currentUser!.uid),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (!snapshot.hasData)
-          return const Center(
-            child: CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation(redColor),
-            ),
-          );
+          return loadingIndicator();
         else if (snapshot.data!.docs.isEmpty)
           return Center(
             child: "No data".text.color(darkFontGrey).makeCentered(),
           );
         else {
           var data = snapshot.data!.docs[0];
+
           return SafeArea(
             child: Column(
               children: [
@@ -116,6 +117,19 @@ class ProfileScreen extends StatelessWidget {
                 ListView.separated(
                   shrinkWrap: true,
                   itemBuilder: (context, index) => ListTile(
+                    onTap: () {
+                      switch (index) {
+                        case 0:
+                          Get.to(() => const OrdersScreen());
+                          break;
+                        case 1:
+                          Get.to(() => const WishlistScreen());
+                          break;
+                        case 2:
+                          Get.to(() => const MessagesScreen());
+                          break;
+                      }
+                    },
                     leading:
                         Image.asset(profileButtonIconsList[index], width: 22),
                     title: profileButtonList[index]

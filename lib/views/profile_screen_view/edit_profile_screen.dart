@@ -20,7 +20,6 @@ class EditProfileScreen extends StatelessWidget {
     return bgWidget(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        appBar: AppBar(),
         body: Obx(
           () => Column(
             mainAxisSize: MainAxisSize.min,

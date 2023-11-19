@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
 class SplashScreen extends StatefulWidget {
+  //TODO: password machting while signup
   const SplashScreen({super.key});
 
   @override

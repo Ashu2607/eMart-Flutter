@@ -5,7 +5,6 @@ import 'package:emart/consts/consts.dart';
 import 'package:emart/services/firestore_service.dart';
 import 'package:emart/views/orders_screen_view/order_details_screen.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
 class OrdersScreen extends StatelessWidget {
   const OrdersScreen({super.key});

@@ -24,6 +24,7 @@ class OrderDetailsScreen extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(12),
         child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
           child: Column(
             children: [
               orderStatus(
@@ -144,16 +145,45 @@ class OrderDetailsScreen extends StatelessWidget {
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 children: List.generate(
-                    data['orders'].length,
-                    (index) => orderPlacedDetails(
-                          title1: data['orders'][index]['title'],
-                          title2:
-                              data['orders'][index]['total_price'].toString(),
-                          details1:
-                              data['orders'][index]['quantity'].toString(),
-                          details2: "Refundable",
-                        )).toList(),
+                  data['orders'].length,
+                  (index) => Column(
+                    children: [
+                      orderPlacedDetails(
+                        title1: data['orders'][index]['title'],
+                        title2: data['orders'][index]['total_price']
+                            .toString()
+                            .numCurrency,
+                        details1: data['orders'][index]['quantity'].toString(),
+                        details2: "Refundable",
+                      ),
+                      const Divider(),
+                    ],
+                  ),
+                ).toList(),
+              ).box.outerShadowMd.white.make(),
+              10.heightBox,
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    "SUB TOTAL"
+                        .text
+                        .size(16)
+                        .fontFamily(semibold)
+                        .color(darkFontGrey)
+                        .make(),
+                    "${data['total_amount']}"
+                        .numCurrency
+                        .text
+                        .size(16)
+                        .color(redColor)
+                        .make(),
+                  ],
+                ),
               ),
+              20.heightBox,
             ],
           ),
         ),

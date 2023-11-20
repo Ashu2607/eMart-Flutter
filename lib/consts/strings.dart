@@ -20,6 +20,8 @@ const updated = "Updated";
 const typeMessage = "Type a message...";
 const orderPlaced = "Order placed";
 const allProducts = "All Products";
+const menClothing = "Men Clothing";
+const computer = "Computer";
 
 const createNewAccount = "or, create new account";
 const loginWith = "Log in with";

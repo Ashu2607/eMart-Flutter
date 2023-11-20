@@ -6,11 +6,11 @@ const slidersList = [imgSlider1, imgSlider2, imgSlider3, imgSlider4];
 
 const secondSlidersList = [imgSs1, imgSs2, imgSs3, imgSs4];
 
-const featuredImagesList1 = [imgS1, imgS2, imgS3];
-const featuredImagesList2 = [imgS4, imgS5, imgS6];
+const featuredImagesList1 = [imgS1, imgFc1, imgFc2];
+const featuredImagesList2 = [imgFc3, imgFc4, imgFc5];
 
-const featuredTitle1 = [womenDress, girlsDress, girlsWatched];
-const featuredTitle2 = [boysGlasses, mobilePhone, tShirts];
+const featuredTitle1 = [womenClothing, menClothing, computer];
+const featuredTitle2 = [autoMobile, kidToys, sports];
 
 const categoryList = [
   womenClothing,

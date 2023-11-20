@@ -69,7 +69,6 @@ class _CategoryDetailsState extends State<CategoryDetails> {
                         .make()
                         .onTap(() {
                       switchCategory("${controller.subCat[index]}");
-                      print(index);
                       setState(() {});
                     }),
                   ),

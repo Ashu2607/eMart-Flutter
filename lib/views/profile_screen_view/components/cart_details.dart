@@ -6,7 +6,7 @@ Widget cartDetails(width, String? count, String? title) {
     children: [
       count!.text.fontFamily(bold).size(18).color(darkFontGrey).make(),
       5.heightBox,
-      title!.text.color(darkFontGrey).make(),
+      title!.text.align(TextAlign.center).color(darkFontGrey).make(),
     ],
   )
       .box

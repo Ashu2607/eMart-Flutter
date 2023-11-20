@@ -64,12 +64,12 @@ class ProfileScreen extends StatelessWidget {
                               .roundedFull
                               .clip(Clip.antiAlias)
                               .make()
-                          : Image.network(data['imageUrl'],
-                                  width: 80, fit: BoxFit.cover)
-                              .box
-                              .roundedFull
-                              .clip(Clip.antiAlias)
-                              .make(),
+                          : Image.network(
+                              Uri.encodeFull(data['imageUrl']),
+                              width: 80,
+                              height: 70,
+                              fit: BoxFit.cover,
+                            ).box.roundedFull.clip(Clip.antiAlias).make(),
                       10.widthBox,
                       Expanded(
                         child: Column(

@@ -19,6 +19,7 @@ dependencies:
   intl: ^0.18.1
   path: ^1.8.3
   velocity_x: ^4.1.1
+  device_preview: ^1.1.0
 
 dev_dependencies:
   flutter_test:

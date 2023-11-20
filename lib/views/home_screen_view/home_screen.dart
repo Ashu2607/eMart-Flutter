@@ -5,9 +5,11 @@ import 'package:emart/common_widgets/home_buttons.dart';
 import 'package:emart/common_widgets/loading_indicator.dart';
 import 'package:emart/consts/consts.dart';
 import 'package:emart/consts/list.dart';
+import 'package:emart/controllers/home_controller.dart';
 import 'package:emart/services/firestore_service.dart';
 import 'package:emart/views/category_screen_view/item_details.dart';
 import 'package:emart/views/home_screen_view/components/featured_button.dart';
+import 'package:emart/views/home_screen_view/search_screen.dart';
 import 'package:get/get.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -15,6 +17,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // TODO: work on message screen (seller buyer messages)
+    var controller = Get.find<HomeController>();
     return Container(
       color: lightGolden,
       padding: const EdgeInsets.all(12),
@@ -28,13 +32,22 @@ class HomeScreen extends StatelessWidget {
               alignment: Alignment.center,
               color: lightGrey,
               child: TextFormField(
-                decoration: const InputDecoration(
+                controller: controller.searchController,
+                decoration: InputDecoration(
                   border: InputBorder.none,
-                  suffix: Icon(Icons.search),
+                  suffix: const Icon(Icons.search).onTap(() {
+                    if (controller.searchController.text.isNotEmptyAndNotNull) {
+                      Get.to(() => SearchScreen(
+                            title: controller.searchController.text,
+                          ));
+                      controller.searchController.clear();
+                      FocusScope.of(context).unfocus();
+                    }
+                  }),
                   fillColor: whiteColor,
                   filled: true,
                   hintText: searchanyThing,
-                  hintStyle: TextStyle(color: textfieldGrey),
+                  hintStyle: const TextStyle(color: textfieldGrey),
                 ),
               ),
             ),

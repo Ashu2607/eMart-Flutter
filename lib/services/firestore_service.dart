@@ -83,4 +83,8 @@ class FirestoreService {
       .collection(productsCollection)
       .where('p_is_featured', isEqualTo: true)
       .get();
+
+  // get search products
+  static getSearchProducts(title) =>
+      firestore.collection(productsCollection).get();
 }

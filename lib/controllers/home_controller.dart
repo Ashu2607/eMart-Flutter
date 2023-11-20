@@ -6,6 +6,8 @@ class HomeController extends GetxController {
 
   var userName = '';
 
+  TextEditingController searchController = TextEditingController();
+
   @override
   void onInit() {
     getUserName();

@@ -87,4 +87,10 @@ class FirestoreService {
   // get search products
   static getSearchProducts(title) =>
       firestore.collection(productsCollection).get();
+
+  // get subcategory products
+  static getSubcategoryProducts(title) => firestore
+      .collection(productsCollection)
+      .where('p_subcategory', isEqualTo: title)
+      .snapshots();
 }

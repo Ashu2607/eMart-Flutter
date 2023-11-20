@@ -9,7 +9,7 @@ import 'package:emart/services/firestore_service.dart';
 import 'package:emart/views/category_screen_view/item_details.dart';
 import 'package:get/get.dart';
 
-class CategoryDetails extends StatelessWidget {
+class CategoryDetails extends StatefulWidget {
   final String? title;
   const CategoryDetails({
     super.key,
@@ -17,56 +17,87 @@ class CategoryDetails extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    var controller = Get.find<ProductController>();
+  State<CategoryDetails> createState() => _CategoryDetailsState();
+}
 
+class _CategoryDetailsState extends State<CategoryDetails> {
+  @override
+  void initState() {
+    super.initState();
+    switchCategory(widget.title);
+  }
+
+  switchCategory(title) {
+    if (controller.subCat.contains(title))
+      productMethod = FirestoreService.getSubcategoryProducts(title);
+    else
+      productMethod = FirestoreService.getProducts(title);
+  }
+
+  var controller = Get.find<ProductController>();
+
+  dynamic productMethod;
+
+  @override
+  Widget build(BuildContext context) {
     return bgWidget(
       child: Scaffold(
-        appBar: AppBar(title: title!.text.white.fontFamily(bold).make()),
-        body: StreamBuilder(
-          stream: FirestoreService.getProducts(title),
-          builder:
-              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (!snapshot.hasData)
-              return loadingIndicator();
-            else if (snapshot.data!.docs.isEmpty)
-              return Center(
-                child: "No Products found".text.color(darkFontGrey).make(),
-              );
-
-            var data = snapshot.data!.docs;
-
-            return Container(
-              padding: const EdgeInsets.all(12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SingleChildScrollView(
-                    physics: const BouncingScrollPhysics(),
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: List.generate(
-                        controller.subCat.length,
-                        (index) => "${controller.subCat[index]}"
-                            .text
-                            .color(darkFontGrey)
-                            .size(12)
-                            .fontFamily(semibold)
-                            .makeCentered()
-                            .box
-                            .white
-                            .padding(const EdgeInsets.symmetric(horizontal: 4))
-                            .margin(const EdgeInsets.all(4))
-                            .roundedSM
-                            .size(120, 60)
-                            .make(),
-                      ),
-                    ),
+        appBar: AppBar(title: widget.title!.text.white.fontFamily(bold).make()),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              scrollDirection: Axis.horizontal,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 12),
+                child: Row(
+                  children: List.generate(
+                    controller.subCat.length,
+                    (index) => "${controller.subCat[index]}"
+                        .text
+                        .color(darkFontGrey)
+                        .size(12)
+                        .fontFamily(semibold)
+                        .makeCentered()
+                        .box
+                        .white
+                        .padding(const EdgeInsets.symmetric(horizontal: 4))
+                        .margin(const EdgeInsets.all(4))
+                        .roundedSM
+                        .size(120, 60)
+                        .make()
+                        .onTap(() {
+                      switchCategory("${controller.subCat[index]}");
+                      print(index);
+                      setState(() {});
+                    }),
                   ),
+                ),
+              ),
+            ),
+            20.heightBox,
+            StreamBuilder(
+              stream: productMethod,
+              builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (!snapshot.hasData)
+                  return Expanded(child: loadingIndicator());
+                else if (snapshot.data!.docs.isEmpty)
+                  return Expanded(
+                    child: "No Products found"
+                        .text
+                        .color(darkFontGrey)
+                        .makeCentered(),
+                  );
 
-                  // products
-                  20.heightBox,
-                  Expanded(
+                var data = snapshot.data!.docs;
+
+                return
+                    // products
+                    Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
                     child: GridView.builder(
                       physics: const BouncingScrollPhysics(),
                       shrinkWrap: true,
@@ -118,11 +149,11 @@ class CategoryDetails extends StatelessWidget {
                         });
                       },
                     ),
-                  )
-                ],
-              ),
-            );
-          },
+                  ),
+                );
+              },
+            ),
+          ],
         ),
       ),
     );

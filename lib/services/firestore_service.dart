@@ -77,4 +77,10 @@ class FirestoreService {
   // get all products
   static getAllProducts() =>
       firestore.collection(productsCollection).snapshots();
+
+  // get featured products
+  static getFeaturedProduct() => firestore
+      .collection(productsCollection)
+      .where('p_is_featured', isEqualTo: true)
+      .get();
 }

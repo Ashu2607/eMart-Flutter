@@ -1,3 +1,5 @@
+// ignore_for_file: curly_braces_in_flow_control_structures
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:emart/common_widgets/home_buttons.dart';
 import 'package:emart/common_widgets/loading_indicator.dart';
@@ -152,8 +154,9 @@ class HomeScreen extends StatelessWidget {
                     Container(
                       width: double.infinity,
                       padding: const EdgeInsets.all(12),
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                         color: redColor,
+                        borderRadius: BorderRadius.circular(8),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -166,40 +169,66 @@ class HomeScreen extends StatelessWidget {
                           10.heightBox,
                           SingleChildScrollView(
                             scrollDirection: Axis.horizontal,
-                            child: Row(
-                              children: List.generate(
-                                6,
-                                (index) => Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Image.asset(
-                                      imgP1,
-                                      width: 130,
-                                      fit: BoxFit.cover,
+                            child: FutureBuilder(
+                              future: FirestoreService.getFeaturedProduct(),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                                if (!snapshot.hasData)
+                                  return loadingIndicator();
+                                else if (snapshot.data!.docs.isEmpty)
+                                  return "No Featured Product"
+                                      .text
+                                      .white
+                                      .makeCentered();
+                                var featuredData = snapshot.data!.docs;
+                                return Row(
+                                  children: List.generate(
+                                    featuredData.length,
+                                    (index) => Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Image.network(
+                                          featuredData[index]['p_images'][0],
+                                          fit: BoxFit.cover,
+                                          width: 130,
+                                          height: 140,
+                                        ),
+                                        10.heightBox,
+                                        "${featuredData[index]['p_name']}"
+                                            .text
+                                            .fontFamily(semibold)
+                                            .color(darkFontGrey)
+                                            .make(),
+                                        10.heightBox,
+                                        "\$${featuredData[index]['p_price']}"
+                                            .text
+                                            .color(redColor)
+                                            .fontFamily(bold)
+                                            .size(16)
+                                            .make(),
+                                      ],
+                                    )
+                                        .box
+                                        .white
+                                        .roundedSM
+                                        .margin(const EdgeInsets.symmetric(
+                                            horizontal: 4))
+                                        .padding(const EdgeInsets.all(8))
+                                        .make()
+                                        .onTap(
+                                      () {
+                                        Get.to(
+                                          () => ItemDetails(
+                                              title: featuredData[index]
+                                                  ['p_name'],
+                                              data: featuredData[index]),
+                                        );
+                                      },
                                     ),
-                                    10.heightBox,
-                                    "Laptop 8GB/64GB"
-                                        .text
-                                        .fontFamily(semibold)
-                                        .color(darkFontGrey)
-                                        .make(),
-                                    10.heightBox,
-                                    "\$600"
-                                        .text
-                                        .color(redColor)
-                                        .fontFamily(bold)
-                                        .size(16)
-                                        .make(),
-                                  ],
-                                )
-                                    .box
-                                    .white
-                                    .roundedSM
-                                    .margin(const EdgeInsets.symmetric(
-                                        horizontal: 4))
-                                    .padding(const EdgeInsets.all(8))
-                                    .make(),
-                              ),
+                                  ),
+                                );
+                              },
                             ),
                           ),
                         ],

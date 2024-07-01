@@ -1,68 +1,75 @@
 plugins {
     id "com.android.application"
     id "kotlin-android"
+    // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id "dev.flutter.flutter-gradle-plugin"
 }
 
 def localProperties = new Properties()
-def localPropertiesFile = rootProject.file('local.properties')
+def localPropertiesFile = rootProject.file("local.properties")
 if (localPropertiesFile.exists()) {
-    localPropertiesFile.withReader('UTF-8') { reader ->
+    localPropertiesFile.withReader("UTF-8") { reader ->
         localProperties.load(reader)
     }
 }
 
-def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
+def flutterVersionCode = localProperties.getProperty("flutter.versionCode")
 if (flutterVersionCode == null) {
-    flutterVersionCode = '1'
+    flutterVersionCode = "1"
 }
 
-def flutterVersionName = localProperties.getProperty('flutter.versionName')
+def flutterVersionName = localProperties.getProperty("flutter.versionName")
 if (flutterVersionName == null) {
-    flutterVersionName = '1.0'
+    flutterVersionName = "1.0"
+}
+
+def compileSdkVersion = localProperties.getProperty("flutter.compileSdkVersion")
+if (compileSdkVersion == null) {
+    compileSdkVersion = "34" // Define a default value if not specified
+}
+
+def ndkVersion = localProperties.getProperty("flutter.ndkVersion")
+if (ndkVersion == null) {
+    ndkVersion = "21.1.6352462" // Define a default value if not specified
+}
+
+def minSdkVersion = localProperties.getProperty("flutter.minSdkVersion")
+if (minSdkVersion == null) {
+    minSdkVersion = "21" // Define a default value if not specified
+}
+
+def targetSdkVersion = localProperties.getProperty("flutter.targetSdkVersion")
+if (targetSdkVersion == null) {
+    targetSdkVersion = "34" // Define a default value if not specified
 }
 
 android {
-    namespace "com.example.emart"
-    compileSdkVersion 33
-    ndkVersion flutter.ndkVersion
+    namespace = "com.example.emart_new"
+    compileSdk = compileSdkVersion.toInteger()
+    ndkVersion = ndkVersion
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-
-    kotlinOptions {
-        jvmTarget = '1.8'
-    }
-
-    sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.example.emart"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdkVersion 21
-        targetSdkVersion flutter.targetSdkVersion
-        versionCode flutterVersionCode.toInteger()
-        versionName flutterVersionName
-        multiDexEnabled true
+        applicationId = "com.example.emart_new"
+        minSdk = minSdkVersion.toInteger()
+        targetSdk = targetSdkVersion.toInteger()
+        versionCode = flutterVersionCode.toInteger()
+        versionName = flutterVersionName
     }
 
     buildTypes {
         release {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig signingConfigs.debug
+            signingConfig = signingConfigs.debug
         }
     }
 }
 
 flutter {
-    source '../..'
+    source = "../.."
 }
-
-dependencies {}
